@@ -1,411 +1,550 @@
 <!doctype html>
 <html lang="en">
 
-	<head>
-		<meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+    <title>Error Handling in Scala</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Joel McCance">
 
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/moon.css" id="theme">
 
-		<!-- Code syntax highlighting -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
 
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
 
-	<body>
+  <body>
 
-		<div class="reveal">
+    <div class="reveal">
 
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
-					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
-					</p>
-				</section>
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Error Handling in Scala</h1>
+          <h3>A Braindump</h3>
+          <p>
+            <small>Created by <a href="mailto:joelm@slalom.com">Joel McCance</a></small>
+          </p>
+        </section>
 
-				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-					</p>
-				</section>
+        <section>
+          <section>
+            <h1>The Java Way<h1>
+          </section>
 
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>Slides can be nested inside of each other.</p>
-						<p>Use the <em>Space</em> key to navigate through all slides.</p>
-						<br>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>That's it, time to go back up.</p>
-						<br>
-						<a href="#/2">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
-						</a>
-					</section>
-				</section>
+          <section data-markdown>
+            ## Exceptions
 
-				<section>
-					<h2>Slides</h2>
-					<p>
-						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
-					</p>
-				</section>
+            * If something goes wrong, throw an exception.
+            * Use checked exceptions to force handling of certain errors.
+          </section>
 
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
-				</section>
+          <section data-markdown>
+            ## ~~Exceptions~~
 
-				<section>
-					<h2>Touch Optimized</h2>
-					<p>
-						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-					</p>
-				</section>
+            * Invisible to the type system.
+            * Inflexible: Only one way to throw and catch an exception.
+            * Inefficient: Don't always need/want the stack trace.
+          </section>
 
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
+          <section data-markdown>
+            ## nulls
 
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+            * Used when a value is undefined or not found.
+          </section>
 
-						```
-						<section data-markdown>
-						  ## Markdown support
+          <section data-markdown>
+            ## ~~nulls~~
 
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
-					</script>
-				</section>
+            > "My billion-dollar mistake." — Tony Hoare
 
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
+            * The NullPointerException landmine
+            * When can you pass null? When can't you? When do you get one back?
 
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
-				</section>
+            &#175;\\\_(&#12484;)_/&#175;
+          </section>
+        </section>
 
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=slide#/transitions">Slide</a> -
-						<a href="?transition=convex#/transitions">Convex</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a>
-					</p>
-				</section>
+        <section>
+          <section>
+           <h1>The Scala Way</h1>
+          </section>
 
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						reveal.js comes with a few themes built in: <br>
-						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-					</p>
-				</section>
+          <section data-markdown>
+            ## Encode errors into types
 
-				<section>
-					<section data-background="#dddddd">
-						<h2>Slide Backgrounds</h2>
-						<p>
-							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tiled Backgrounds</h2>
-						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-					</section>
-					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-							<h2>Video Backgrounds</h2>
-							<pre><code style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-						</div>
-					</section>
-					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-						<h2>... and GIFs!</h2>
-					</section>
-				</section>
+            * The type communicates what the user can expect.
+            * Error types provide combinators to separate main code from error-handling cleanly and efficiently.
+          </section>
 
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-					</p>
-					<pre><code>Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-				</section>
+          <section data-markdown>
+            ## Benefits
 
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						You can override background transitions per-slide.
-					</p>
-					<pre><code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-				</section>
+            * Always clear what you're passing in and what you're getting back.
+            * More powerful, concise tools for combining results.
+            * Compiler enforces that you handle errors appropriately.
+            * Can compose error types.
+          </section>
+        </section>
 
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
+        <section>
+          <section data-markdown>
+            # Scala Standard Library
+          </section>
 
-    var nodes = document.querySelectorAll( selector );
+          <section data-markdown>
+            ## Scala Standard Library
 
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
+            * `Option[A]`: "An `A`, which might not exist"
+            * `Try[A]`: "An `A` or an exception"
+            * `Either[E, A]`: "An `A` or an error `E`"
+            * `Future[A]`: "Eventually an `A`, or an exception"
+          </section>
 
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
-  }
-}
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
+          <section data-markdown>
+            ## Option
 
-				<section>
-					<h2>Marvelous List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
+            * An `Option[A]` is either `None` or `Some[A]`.
+            * Useful for functions that need to return a "not found" response, or if the value of the function for that input is undefined.
+            * Handy for dealing with Java APIs that return `null`
+          </section>
 
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
+          <section data-markdown>
+            ## Option
 
-				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							</tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							</tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							</tr>
-						</tbody>
-					</table>
-				</section>
+            ```scala
+            // Converts nulls to None and non-nulls to Some
+            val oRecord = Option(javaService.getRecord(id))
 
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
+            oRecord match {
+              case Some(record) => Ok(record)
+              case None => NotFound
+            }
+            ```
+          </section>
 
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
+          <section data-markdown>
+            ## Try
 
-				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
+            * A `Try[A]` is either a `Success[A]` or a `Failure`.
+            * `Failure` contain the exception that was thrown.
+            * Another handy tool for interacting with Java APIs
+          </section>
 
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
+          <section data-markdown>
+            ## Try
 
-				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="//www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-				</section>
+            ```scala
+            Try(doSomethingDangerous()) match {
+              case Success(record) => Ok(record)
+              case Failure(t) => InternalServerError(t.getMessage)
+            }
+            ```
+          </section>
 
-				<section>
-					<h2>Global State</h2>
-					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
-					</p>
-				</section>
+          <section data-markdown>
+            ## Either
 
-				<section data-state="customevent">
-					<h2>State Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
+            * An `Either[A, B]` is either `Left[A]` or `Right[B]`
+            * Like `Try`, but with an error of any type you want
+            * Left is the "error" value by convention
+            * Useful when you want to return the error of the first operation that failed in a sequence of operations
+            * If you can use it, Scalactic's `Or` type is better. (Stay tuned!)
+          </section>
 
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
-				</section>
+          <section data-markdown>
+            ## Either
 
-				<section>
-					<h2>Much more</h2>
-					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-					</ul>
-				</section>
+            ```scala
+            getRecord(id) match {
+              case Right(record) => Ok(record)
+              case Left(error) => BadRequest(error)
+            }
+            ```
+          </section>
 
-				<section style="text-align: left;">
-					<h1>THE END</h1>
-					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-					</p>
-				</section>
+          <section data-markdown>
+            ## Future
 
-			</div>
+            * A `Future[A]` represents an "eventual" value.
+            * When a Future is complete, its value is a Try.
+          </section>
 
-		</div>
+          <section data-markdown>
+            ## Future
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+            Unlike other types, you pretty much never unpack a `Future` yourself.
 
-		<script>
+            ```scala
+            getRecord(id)
+              .map(record => Ok(record))
+              .recover {
+                case t => InternalServerError(t)
+              }
+            ```
+          </section>
+        </section>
 
-			// Full list of configuration options available at:
-			// https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
+        <section>
+          <section data-markdown>
+            # Standard Combinators
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
+            ## An Interlude
+          </section>
 
-				// Optional reveal.js plugins
-				dependencies: [
-					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
-				]
-			});
+          <section data-markdown>
+            ## Common Patterns
 
-		</script>
+            * "If it's not an error, I want to do something."
+            * "If it's not an error, I want to do something that might itself return an error."
+            * "I want to run some validation on a non-error and convert it into an error if it fails."
+          </section>
 
-	</body>
+          <section data-markdown>
+            ## Common Solutions
+
+            Given a type `M[A]`...
+
+            * `def map[B](f: A => B): M[B]`
+            * `def flatMap[B](f: A => M[B]): M[B]`
+            * `def filter(p: A => Boolean): M[A]`
+          </section>
+
+          <section data-markdown>
+            ## Example: Option#map
+
+            Transform a non-error value.
+
+            ```scala
+            // Maybe get the record, maybe get nothing
+            val oRecord = getRecord(id) // def getRecord(): Option[Record]
+
+            // If we get the record, return it with a 200 OK, otherwise
+            // return a 404 NOT FOUND.
+            oRecord.map { record =>
+              Ok(record)
+            }.getOrElse(NotFound("No such record: $id"))
+            ```
+          </section>
+
+          <section data-markdown>
+            ## Example: Option#flatMap
+
+            Combine the non-error value with another error value. (For example, chaining multiple
+            service calls.)
+
+            ```scala
+            getRecord(id1).flatMap { record1 =>
+              getRecord(id2).map { record2 =>
+                Ok(Seq(record1, record2))
+              }
+            }.getOrElse(NotFound(s"No such records: $id1, $id2))
+            ```
+          </section>
+
+          <section data-markdown>
+            ## Example: Option#filter
+
+            Convert non-errors to errors.
+
+            ```scala
+            getRecord(id)
+              .filter(_.name == expectedName)
+              .map(Ok(_))
+              .getOrElse(
+                NotFound(s"Record $id did not have expected name $expectedName"))
+            ```
+
+            (The semantics of filter will vary from type to type.)
+          </section>
+
+          <section data-markdown>
+            # for-comprehensions
+          </section>
+
+          <section data-markdown>
+            ## for-comprehensions
+
+            Using `map` and `flatMap` can result in deep nesting.
+
+            ```scala
+            authenticateUser(credentials).flatMap { user =>
+              getRecord(id).flatMap { record =>
+                censorRecord(record).map { censoredRecord =>
+                  Ok(censoredRecord)
+                }
+              }
+            }
+            ```
+          </section>
+
+          <section data-markdown>
+            ## for-comprehensions
+
+            Scala provides some syntactic sugar to clean this up:
+
+            ```scala
+            for {
+              user &larr; authenticateUser(credentials) // flatMap
+              record &larr; getRecord(id) // flatMap
+              censoredRecord &larr; censorRecord(record) // map
+            } yield Ok(censoredRecord)
+            ```
+          </section>
+
+          <section data-markdown>
+            ## for-comprehensions
+
+            ```
+            // as.foreach(a => f(a))
+            for (a &larr; as) { // no yield
+              f(a)
+            }
+
+            // as.map(a => f(a))
+            val bs =
+              for {
+                a &larr; as // One "generator" line
+              } yield f(a)
+
+            // as.flatMap(a => a.map(a2 => f(a2)))
+            val bs =
+              for {
+                a &larr; as // Multiple generator lines
+                a2 &larr; a // All but the last will be flatMap, last will be map
+              } yield f(a2)
+            ```
+          </section>
+
+          <section data-markdown>
+            ## for-comprehensions
+
+            * Work on any type that provides the necessary method(s)
+            * No `yield` and any number of generators &rArr; `foreach`
+            * One "generator" line &rArr; `map`
+            * Multiple generator lines &rArr; `flatMap`, `flatMap`, ..., `map`
+            * Right-hand side of all generators must return the same type.
+              * All `Option[_]`, all `Future[_]`, etc.
+              * Contained type may change (`Option[A]` &rArr; `Option[B]`, etc.)
+          </section>
+
+          <section data-markdown>
+            ## for-comprehensions
+
+            Kitchen-sink example
+
+            ```scala
+            for {
+              user &larr; authenticate(credentials)
+              record &larr; getRecord(id) if user.hasPermission(ViewRecords)
+              accessTime = DateTime.now()
+              censoredRecord &larr; censorRecordForUser(user, dateTime, record)
+            } yield {
+              logAccess(accessTime, user, record)
+              Ok(censoredRecord)
+            }
+            ```
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Scalactic Or, One, and Every
+
+            ### A Better Either
+          </section>
+
+          <section data-markdown>
+            ## Scalactic Or
+
+            ### The Problem with Either
+
+            ```scala
+            // Sample method definition
+            def foo(): Either[ErrorMessage, Foo]
+
+            for {
+              a &larr; foo().right // I am not repeating myself!
+              b &larr; bar(b).right // I am not repeating myself!
+              c &larr; baz(c).right // Oh god, I'm repeating myself.
+            } yield (a, b, c)
+            ```
+          </section>
+
+          <section data-markdown>
+            ## Scalactic Or
+
+            * An `Or[A, E]` is either a `Good[A]` or `Bad[E]`.
+            * Odd feature of Scala: Can write "`Or[A, B]`" as "`A Or B`" (infix notation).
+            * "Left-biased": Can call `map` and friends directly without specifying you want to map over the "Good" case.
+          </section>
+
+          <section data-markdown>
+            ## Scalactic Or
+
+            ```scala
+            // Sample method definition
+            // Very readable
+            def foo(): Foo Or ErrorMessage
+
+            // Less noise
+            for {
+              a &larr; foo()
+              b &larr; bar(b)
+              c &larr; bac(c)
+            } yield (a, b, c)
+            ```
+          </section>
+
+          <section data-markdown>
+            ## Scalactic Or
+
+            Either only accumulates the first error:
+
+            ```scala
+            val errorOrResult =
+              for {
+                a &larr; foo().right
+                b &larr; bar(b).right
+                c &larr; baz(c).right
+              } yield (a, b, c)
+
+            // Only logs the first error that occurred in the sequence.
+            errorOrResult.left.foreach { e =>
+              log.error(e)
+            }
+            ```
+          </section>
+
+          <section data-markdown>
+            ## Scalactic Or
+
+            ```scala
+            import org.scalactic.Accumulation._
+
+            // Declare methods to return One[ErrorMessage]
+            def validName(name: String): Name Or One[ErrorMessage]
+            def validAge(age: Int): Age Or One[ErrorMessage]
+
+            // Use one of the Accumulation combinators:
+            val personOrErrors: Person Or Every[ErrorMessage] =
+              withGood(validName(name), validAge(age)) { (name, age) =>
+                Person(name, age)
+              }
+
+            personOrErrors.badMap { errors =>
+              errors.foreach { error =>
+                log.error(error)
+              }
+            }
+            ```
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            # Best Practices
+          </section>
+
+          <section data-markdown>
+            ## Best Practices: Option
+
+            * Only use `Option` for "no such value" or "undefined" use-cases, or for wrapping Java APIs.
+              * If there's an error message, you should return it.
+            * Avoid using `Option#get`
+              * `NoSuchElementException` is no better than an NPE.
+              * Use combinators, `match`, and `getOrElse` instead.
+          </section>
+
+          <section data-markdown>
+            ## Best Practices: Try
+
+            * Use `Try` when dealing with APIs that throw exceptions, but convert the result to other error types for your own API.
+          </section>
+
+          <section data-markdown>
+            ## Best Practices: Either/Or
+
+            * If you can, use `Or`.
+              * Be consistent and use one or the other throughout the project.
+            * Develop a common type to use for the `Left`/`Bad` case to use throughout the project for easier composition of `Either`s/`Or`s.
+          </section>
+
+          <section data-markdown>
+            ## Best Practices: Future
+
+            * Reserve failing the Future for lower-level errors, like connectivity errors.
+              * Compose with other types for business-level errors.
+          </section>
+
+          <section data-markdown>
+            ## Best Practices: Error Composition
+
+            * Compose these types in the order you'll likely process them.
+              1. Exceptions: Future, Try
+              2. Errors: Or, Either
+              3. "Null-ness": Option
+            * 👍: `Future[Option[Person] Or ErrorMessage]`
+              * Handles async code, then errors, then the actual Person.
+            * 👎: `Option[Future[Person]]`
+              * Can't compose with other async code without first unwrapping the Future.
+          </section>
+
+          <section data-markdown>
+
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
 </html>
