@@ -359,7 +359,7 @@
               user &larr; authenticate(credentials)
               record &larr; getRecord(id) if user.hasPermission(ViewRecords)
               accessTime = DateTime.now()
-              censoredRecord &larr; censorRecordForUser(user, dateTime, record)
+              censoredRecord &larr; censorRecordForUser(user, accessTime, record)
             } yield {
               logAccess(accessTime, user, record)
               Ok(censoredRecord)
@@ -513,11 +513,17 @@
 
           <section data-markdown>
             ## Best Practices: Exceptions
-          </section>
 
+            * Per project: Decide what should be an exception and what should not.
+              * Exceptions can be useful for low-level errors.
+              * Enforce consistent usage.
+              * Generally prefer using the other error types instead.
+          </section>
+          <!--
           <section data-markdown>
             ## Best Practices: Grab Bag
           </section>
+          -->
         </section>
 
         <section data-markdown>
